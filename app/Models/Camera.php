@@ -10,7 +10,6 @@ class Camera extends Model
 {
     use HasFactory;
 
-    // Pastiin fillable-nya ada (penting!)
     protected $fillable = [
         'category_id',
         'name',
@@ -22,9 +21,14 @@ class Camera extends Model
         'specifications',
         'is_available',
     ];
+    protected $casts = [
+        'specifications' => 'array', 
+        'is_available' => 'boolean',
+    ];
 
     public function category(): BelongsTo
     {
+        
         return $this->belongsTo(Category::class);
     }
 }

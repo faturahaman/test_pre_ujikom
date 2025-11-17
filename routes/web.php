@@ -1,9 +1,17 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PageController;
+use App\Http\Controllers\CommentController; 
+use App\Http\Controllers\ProductController;
 
-use App\Http\Controllers\PublicCameraController;
+// use App\Http\Controllers\PublicCameraController;
 
-// Rute Publik (Guest)
-Route::get('/', [PublicCameraController::class, 'index'])->name('home');
-Route::get('/kamera/{camera:slug}', [PublicCameraController::class, 'show'])->name('cameras.show');
+Route::get('/', [PageController::class, 'index'])->name('home');
+
+
+
+Route::get('/products', [ProductController::class, 'index'])->name('products');
+
+Route::post('/comment', [CommentController::class, 'store'])->name('comment.store'); 
+

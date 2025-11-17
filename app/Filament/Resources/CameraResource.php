@@ -24,6 +24,7 @@ use Filament\Tables\Columns\ToggleColumn;
 use Illuminate\Support\Str;
 use Iluminate\Support\Facades\Storage;
 use Iluminate\Database\Eloquent\Relations\BelongsTo;
+use Filament\Forms\Components\Repeater;
 
 class CameraResource extends Resource
 {
@@ -46,10 +47,10 @@ class CameraResource extends Resource
                     ->required()
                     ->unique(ignoreRecord: true),
 
-                TextInput::make('specifications')
-                    ->label('Spesifikasi Kamera')
-                    ->required()
-                    ->columnSpanFull(),
+                // TextInput::make('specifications')
+                //     ->label('Spesifikasi Kamera')
+                //     ->required()
+                //     ->columnSpanFull(),
         
                 Select::make('category_id')
                     ->relationship('category', 'name') 
@@ -64,8 +65,19 @@ class CameraResource extends Resource
                     ->required()
                     ->default(true)
                     ->label('Stok Tersedia?'),
+
+                    Repeater::make('specifications')
+                    ->label('Spesifikasi Kamera')
+                    ->schema([
+                        TextInput::make('name')->required(),
+                    ])
+                    ->columns(1)
+                    ->columnSpanFull()
+
                     
             ])->columnSpan(1), 
+
+            
 
             Forms\Components\Group::make()->schema([
                 FileUpload::make('image_url')
@@ -98,6 +110,7 @@ class CameraResource extends Resource
                 ->sortable(),
             
             ToggleColumn::make('is_available')->label('Tersedia'), 
+            
         ])
             ->filters([
                 //
