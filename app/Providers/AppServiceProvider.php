@@ -35,6 +35,7 @@ class AppServiceProvider extends ServiceProvider
         // Shared Categories
         $categoriesData = Category::all()->map(function ($category, $index) {
             return [
+                'id'          => $category->id,
                 'image'       => asset('storage/' . $category->image_url),
                 'title'       => $category->name,
                 'description' => $category->description,

@@ -8,38 +8,21 @@
 
         <div id="category-grid" class="grid grid-cols-1 md:grid-cols-2 gap-8">
 
-            {{-- 4 kategori pertama --}}
             @foreach ($categories->take(4) as $category)
-                <a href="{{ route('products') }}?category={{ urlencode($category['title']) }}"
-                   class="relative block group overflow-hidden rounded-lg shadow-lg">
-
-                    <img src="{{ $category['image'] }}" 
-                         alt="{{ $category['title'] }}" 
-                         class="w-full h-80 object-cover group-hover:scale-105 transition duration-500">
-
-                    <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent"></div>
-
-                    <div class="absolute bottom-6 left-6 right-6 text-white z-10">
-                        <h3 class="text-3xl font-semibold">{{ $category['title'] }}</h3>
-                    </div>
-                </a>
+                <x-category-card
+                    :id="$category['id']"
+                    :image="$category['image']"
+                    :title="$category['title']"
+                />
             @endforeach
-
-            {{-- sisanya --}}
+            
             @foreach ($categories->skip(4) as $category)
-                <a href="{{ route('products') }}?category={{ urlencode($category['title']) }}"
-                   class="relative block group overflow-hidden rounded-lg shadow-lg hidden extra-category">
-
-                    <img src="{{ $category['image'] }}" 
-                         alt="{{ $category['title'] }}" 
-                         class="w-full h-80 object-cover group-hover:scale-105 transition duration-500">
-
-                    <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent"></div>
-
-                    <div class="absolute bottom-6 left-6 right-6 text-white z-10">
-                        <h3 class="text-3xl font-semibold">{{ $category['title'] }}</h3>
-                    </div>
-                </a>
+                <x-category-card
+                    :id="$category['id']"
+                    :image="$category['image']"
+                    :title="$category['title']"
+                    class="hidden extra-category" {{-- <-- Kelasnya di-passing ke komponen --}}
+                />
             @endforeach
 
         </div>
@@ -56,16 +39,22 @@
     </div>
 </div>
 
+{{-- 
+  Script lu udah bener, nggak perlu diubah.
+  Dia bakal tetep nemuin '.extra-category'
+--}}
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         const btn = document.getElementById("toggleCategories");
-        const extraItems = document.querySelectorAll(".extra-category");
-        let shown = false;
+        if (btn) { // <-- Saya tambahin 'if (btn)' biar lebih aman
+            const extraItems = document.querySelectorAll(".extra-category");
+            let shown = false;
 
-        btn.addEventListener("click", () => {
-            shown = !shown;
-            extraItems.forEach(item => item.classList.toggle("hidden", !shown));
-            btn.textContent = shown ? "Show Less" : "View All Categories";
-        });
+            btn.addEventListener("click", () => {
+                shown = !shown;
+                extraItems.forEach(item => item.classList.toggle("hidden", !shown));
+                btn.textContent = shown ? "Show Less" : "View All Categories";
+            });
+        }
     });
 </script>

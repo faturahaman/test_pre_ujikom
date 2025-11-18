@@ -27,7 +27,7 @@
                 Process
             </a>
             
-            <a href="{{ request()->is('/') ? '#article' : url('/') . '#article' }}" 
+            <a href="{{ route('article')}}" 
                class="uppercase text-sm font-semibold tracking-wider opacity-80 hover:opacity-100 transition-opacity">
                 Article
             </a>
@@ -58,7 +58,6 @@
     </button>
 
     <nav class="flex flex-col items-center text-center gap-6">
-        
         <a href="{{ request()->is('/') ? '#collection' : url('/') . '#collection' }}" 
            class="mobile-link uppercase text-2xl font-semibold tracking-wider opacity-80 hover:opacity-100 transition-opacity">
             Collection

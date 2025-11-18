@@ -46,26 +46,17 @@ class CameraResource extends Resource
                 TextInput::make('slug')
                     ->required()
                     ->unique(ignoreRecord: true),
-
-                // TextInput::make('specifications')
-                //     ->label('Spesifikasi Kamera')
-                //     ->required()
-                //     ->columnSpanFull(),
-        
                 Select::make('category_id')
                     ->relationship('category', 'name') 
                     ->required(),
-                
                 TextInput::make('price_per_day')
                     ->required()
                     ->numeric()
                     ->prefix('Rp'),
-                
                 Toggle::make('is_available')
                     ->required()
                     ->default(true)
                     ->label('Stok Tersedia?'),
-
                     Repeater::make('specifications')
                     ->label('Spesifikasi Kamera')
                     ->schema([

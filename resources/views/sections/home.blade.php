@@ -17,10 +17,10 @@
         </p>
         
         <div class="mt-8 flex flex-col sm:flex-row gap-4 sm:gap-12">
-            <a href="#" class="w-full sm:w-auto border-2 border-white px-6 py-3 text-sm font-semibold uppercase tracking-wider hover:bg-white hover:text-black transition-colors">
-                Explore Collection
+            <a href="/products" class="w-full sm:w-auto border-2 border-white px-6 py-3 text-sm font-semibold uppercase tracking-wider hover:bg-white hover:text-black transition-colors">
+                Explore Product
             </a>
-            <a href="#" class="w-full sm:w-auto border-2 border-white px-6 py-3 text-sm font-semibold uppercase tracking-wider hover:bg-white hover:text-black transition-colors">
+            <a href="#collection" class="w-full sm:w-auto border-2 border-white px-6 py-3 text-sm font-semibold uppercase tracking-wider hover:bg-white hover:text-black transition-colors">
                 Collection
             </a>
         </div>

@@ -17,21 +17,43 @@
     --animate-scroll-left: scroll-left 40s linear infinite;
     --animate-scroll-right: scroll-left 40s linear infinite reverse;
 }
- @keyframes marquee-left {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(-100%); }
+
+html {
+    scroll-behavior: smooth;
 }
 
-@keyframes marquee-right {
-    0% { transform: translateX(-100%); }
-    100% { transform: translateX(0); }
+
+ /* Wrapper: menyembunyikan overflow */
+.marquee-container {
+    position: relative;
+    overflow: hidden;
 }
+
+
+
+/* Konten panjang: berisi 2 set elemen */
+.marquee-track {
+    display: flex;
+    width: max-content;
+    white-space: nowrap;
+}
+
+/* Lowong animasi halus */
 @keyframes marquee-left {
     0% { transform: translateX(0); }
-    100% { transform: translateX(-100%); }
+    100% { transform: translateX(-50%); } /* geser setengah karena ada konten duplikat */
 }
 
 @keyframes marquee-right {
-    0% { transform: translateX(-100%); }
+    0% { transform: translateX(-50%); }
     100% { transform: translateX(0); }
+}
+
+/* Variasi animasi */
+.marquee-left {
+    animation: marquee-left 25s linear infinite;
+}
+
+.marquee-right {
+    animation: marquee-right 25s linear infinite;
 }

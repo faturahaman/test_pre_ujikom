@@ -66,15 +66,12 @@ class ArticleResource extends Resource
 
                     ])->columnSpan(2),
 
-                    // --- Kolom Kanan (Sidebar Metadata) ---
                     Section::make('Metadata')->schema([
-                        Toggle::make('is_featured')
-                            ->label('Artikel Unggulan (Featured)?')
-                            ->helperText('Jika ON, artikel ini akan tampil di bagian atas.')
-                            ->onColor('success'),
+                       Toggle::make('is_featured')
+                        ->label('Artikel Unggulan (Featured)?')
+                        ->helperText('Mengaktifkan ini akan otomatis menonaktifkan Featured pada artikel lain.') 
+                        ->onColor('warning'), 
 
-                        // --- DIUBAH DISINI ---
-                        // Kita ganti Enum dengan array biasa
                         Select::make('status')
                             ->label('Status')
                             ->options([
@@ -116,8 +113,6 @@ class ArticleResource extends Resource
                     ->trueColor('warning')
                     ->falseColor('gray'),
 
-                // --- DIUBAH DISINI ---
-                // Kita ganti Enum dengan string biasa
                 TextColumn::make('status')
                     ->badge()
                     ->color(fn (string $state): string => match ($state) {
@@ -137,8 +132,6 @@ class ArticleResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                // --- DIUBAH DISINI ---
-                // Kita ganti Enum dengan array biasa
                 SelectFilter::make('status')
                     ->options([
                         'draft' => 'Draft',

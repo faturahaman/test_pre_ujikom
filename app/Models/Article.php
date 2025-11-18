@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Enums\ArticleStatus; // Impor Enum
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -10,11 +9,6 @@ class Article extends Model
 {
     use HasFactory;
 
-    /**
-     * Kolom yang boleh diisi saat membuat atau mengubah data (mass assignment).
-     *
-     * @var array<int, string>
-     */
     protected $fillable = [
         'title',
         'image_url',
@@ -29,4 +23,16 @@ class Article extends Model
         'is_featured' => 'boolean',
         'published_at' => 'datetime',
     ];
+
+    protected static function booted(): void
+    {
+        static::saving(function (Article $article) {
+            // Cek apakah artikel ini sedang diset sebagai Featured
+            if ($article->is_featured) {
+                static::where('id', '!=', $article->id)
+                    ->where('is_featured', true)
+                    ->update(['is_featured' => false]);
+            }
+        });
+    }
 }
