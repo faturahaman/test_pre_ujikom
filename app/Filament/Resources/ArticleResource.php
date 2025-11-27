@@ -43,16 +43,19 @@ class ArticleResource extends Resource
                             ->required()
                             ->maxLength(255)
                             ->columnSpanFull(),
-
                         FileUpload::make('image_url')
                             ->label('Cover Image')
                             ->image()
                             ->disk('public')
                             ->directory('article-images')
                             ->imageEditor()
-                            ->required()
+                            ->imageResizeMode('contain')
+                            ->imageCropAspectRatio('16:9') 
+                            ->maxSize(2048) // 2MB
+                            ->preserveFilenames()
                             ->columnSpanFull(),
 
+                        
                         Textarea::make('excerpt')
                             ->label('Ringkasan (Excerpt)')
                             ->rows(3)
