@@ -1,10 +1,4 @@
-@props(['productName' => '', 'productId' => null])
-
-{{-- 
-  Container Modal (Overlay)
-  - x-show="isModalOpen" -> Menampilkan/menyembunyikan modal
-  - @keydown.escape.window -> Menutup modal saat tekan 'Esc'
---}}
+{{-- File: resources/views/components/rent-modal.blade.php --}}
 <div 
     x-show="isModalOpen" 
     x-transition:enter="transition ease-out duration-300"
@@ -15,15 +9,15 @@
     x-transition:leave-end="opacity-0"
     @keydown.escape.window="isModalOpen = false"
     class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75 p-6"
-    style="display: none;" {{-- Sembunyikan by default --}}
+    style="display: none;"
 >
-    {{-- Konten Form Modal --}}
+    {{-- Konten Modal --}}
     <div 
-        @click.away="isModalOpen = false" {{-- Tutup saat klik di luar modal --}}
+        @click.away="isModalOpen = false" 
         class="bg-white text-black rounded-lg shadow-xl w-full max-w-lg p-6 md:p-8"
     >
         
-        {{-- Judul --}}
+        {{-- Judul (Ambil dari x-data parent) --}}
         <h3 class="text-2xl font-semibold mb-2">
             Rent: <span x-text="selectedProductName"></span>
         </h3>
@@ -35,8 +29,11 @@
         <form action="{{ route('rent.store') }}" method="POST">
             @csrf
 
-            {{-- Input tersembunyi untuk ID kamera --}}
+            {{-- Input Hidden (Otomatis terisi dari x-model) --}}
             <input type="hidden" name="camera_id" x-model="selectedProductId">
+            {{-- Kirim data hitungan ke backend jika perlu, atau biarkan backend hitung ulang --}}
+            <input type="hidden" name="total_days" x-model="totalDays">
+            <input type="hidden" name="total_price" x-model="totalPrice">
 
             <div class="space-y-4">
                 {{-- Nama Lengkap --}}
@@ -62,16 +59,45 @@
 
                 {{-- Tanggal Sewa --}}
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {{-- Start Date --}}
                     <div>
-                        <label for="rent_date_start" class="block text-sm font-medium text-neutral-700">Start Date</label>
-                        <input type="date" name="rent_date_start" id="rent_date_start" required
-                               class="mt-1 block w-full rounded-md border-neutral-300 shadow-sm focus:border-black focus:ring-black">
+                        <label for="rent_date_start" class="block font-semibold text-gray-800 mb-1">Start Date</label>
+                        {{-- 
+                            @change="updateCalculation()" -> Panggil fungsi hitung saat tanggal berubah 
+                        --}}
+                        <input type="date" name="rent_date_start" id="rent_date_start" 
+                               min="{{ date('Y-m-d') }}" required
+                               x-model="startDate"
+                               @change="updateCalculation()"
+                               class="w-full p-3 border border-gray-300 rounded-lg focus:border-black focus:ring-black">
                     </div>
+                    
+                    {{-- End Date --}}
                     <div>
-                        <label for="rent_date_end" class="block text-sm font-medium text-neutral-700">End Date</label>
-                        <input type="date" name="rent_date_end" id="rent_date_end" required
-                               class="mt-1 block w-full rounded-md border-neutral-300 shadow-sm focus:border-black focus:ring-black">
+                        <label for="rent_date_end" class="block font-semibold text-gray-800 mb-1">End Date</label>
+                        <input type="date" name="rent_date_end" id="rent_date_end" 
+                               min="{{ date('Y-m-d') }}" required
+                               x-model="endDate"
+                               @change="updateCalculation()"
+                               class="w-full p-3 border border-gray-300 rounded-lg focus:border-black focus:ring-black">
                     </div>
+                </div>
+            </div>
+
+            {{-- Box Tampilan Total Harga --}}
+            <div class="mt-4 p-4 border rounded-lg bg-neutral-100">
+                <div class="flex justify-between items-center mb-1">
+                    <span class="font-medium text-neutral-700">Total Days:</span>
+                    <span class="font-bold text-lg">
+                        <span x-text="totalDays"></span> day(s)
+                    </span>
+                </div>
+                <div class="flex justify-between items-center">
+                    <span class="font-medium text-neutral-700">Total Price:</span>
+                    <span class="font-bold text-xl text-black">
+                        {{-- Memanggil fungsi helper formatRupiah --}}
+                        Rp <span x-text="formatRupiah(totalPrice)"></span>
+                    </span>
                 </div>
             </div>
 

@@ -8,25 +8,20 @@ use Illuminate\Support\Facades\Redirect;
 
 class RentController extends Controller
 {
-    /**
-     * Simpan data pemesanan baru.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\RedirectResponse
-     */
     public function store(Request $request)
     {
-        // 1. Validasi data
+        // 1. Validasi
         $validatedData = $request->validate([
             'camera_id'       => 'required|exists:cameras,id',
             'nama_lengkap'    => 'required|string|max:255',
             'nomor_telp'      => 'required|string|max:20',
             'email'           => 'required|email|max:255',
             'rent_date_start' => 'required|date|after_or_equal:today',
-            'rent_date_end'   => 'required|date|after:rent_date_start',
+            'rent_date_end'   => 'required|date|after_or_equal:rent_date_start', // Ganti after menjadi after_or_equal agar bisa sewa 1 hari
         ]);
 
-        // 2. Buat data rental baru
+        // 2. Create Data
+        // total_days dan total_price akan dihitung otomatis oleh Model (booted method)
         Rental::create([
             'camera_id'       => $validatedData['camera_id'],
             'nama_lengkap'    => $validatedData['nama_lengkap'],
@@ -34,11 +29,10 @@ class RentController extends Controller
             'email'           => $validatedData['email'],
             'rent_date_start' => $validatedData['rent_date_start'],
             'rent_date_end'   => $validatedData['rent_date_end'],
-            'status'          => 'pending', // Status default
+            'status'          => 'pending',
         ]);
 
-        // 3. Redirect kembali dengan pesan sukses
-        // (Anda perlu menampilkan pesan ini di view Anda)
-        return Redirect::back()->with('success', 'Rental request submitted successfully!');
+        // 3. Redirect dengan Session Success (agar SweetAlert muncul)
+        return Redirect::back()->with('success', 'Rental request submitted successfully! Our team will contact and Confirm the request');
     }
 }

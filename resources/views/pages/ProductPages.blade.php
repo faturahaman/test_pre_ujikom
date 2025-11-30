@@ -56,7 +56,8 @@
                             :image="asset('storage/' . $product->image_url)" 
                             :title="$product->name" 
                             :price="($product->price_per_day / 1000)" 
-                            :specifications="$product->specifications"                
+                            :specifications="$product->specifications" 
+                            
                         />
                     @endforeach
                     
@@ -74,7 +75,12 @@
         </div>
 
        
-        <x-rent-modal />
+        <x-rent-modal 
+    productName="selectedProductName" 
+    productId="selectedProductId"
+    productPrice="selectedProductPrice"
+/>
+
 
     </div>
 @endsection

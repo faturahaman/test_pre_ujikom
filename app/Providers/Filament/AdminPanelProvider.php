@@ -27,15 +27,9 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('admin')
             ->login()
+            ->databaseNotifications()
 
-            // --- Customizations start here ---
-
-            // 1. Custom Brand Name
             ->brandName('RTZ Admin')
-            // 2. Custom Brand Logo (using an SVG or image URL)
-            // You can also use ::logo() and ::logoHeight() to control the height.
-            // Replace 'https://placehold.co/150x50/1e3a8a/ffffff?text=ATLAS' with your actual logo URL
-            ->brandLogo('asset/logo.png')
             ->brandLogoHeight('2.5rem')
 
             // 3. Custom Color
@@ -46,7 +40,6 @@ class AdminPanelProvider extends PanelProvider
             ])
 
             // 4. Custom Favicon
-            // Replace '/images/favicon.png' with the path to your desired favicon file
             ->favicon('asset/logo.png')
 
             // --- Customizations end here ---
